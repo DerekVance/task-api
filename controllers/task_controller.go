@@ -49,3 +49,20 @@ func UpdateTask(c *gin.Context) {
 	}
 	c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 }
+
+func DeleteTask(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+	for i, t := range tasks {
+		if t.ID == id {
+			tasks = append(tasks[:i], tasks[i+1:]...)
+			c.Status(http.StatusNoContent)
+			return
+		}
+	}
+	c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+}
