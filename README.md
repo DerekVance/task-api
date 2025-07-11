@@ -2,8 +2,6 @@
 
 A simple RESTful API for managing tasks, built with Go and the Gin web framework. This project demonstrates a clean Go project structure, modular design, and basic CRUD functionality using in-memory storage.
 
----
-
 ## 🚀 Features
 
 - 📄 List all tasks
@@ -12,8 +10,6 @@ A simple RESTful API for managing tasks, built with Go and the Gin web framework
 - ❌ Delete tasks
 - 🧱 Modular project layout
 - 💾 In-memory storage (no database required)
-
----
 
 ## 📂 Project Structure
 
@@ -31,8 +27,6 @@ task-api/
 ├── go.mod
 └── go.sum
 ```
-
----
 
 ## 📦 Getting Started
 
@@ -59,11 +53,13 @@ The server will be running at:
 ➡️ http://localhost:8080
 
 📮 API Endpoints
+
 GET /tasks/
 Returns a list of all tasks.
 
 POST /tasks/
 Creates a new task.
+
 Request Body:
 
 ```json
@@ -75,6 +71,7 @@ Request Body:
 
 PUT /tasks/:id
 Updates a task by ID.
+
 Request Body:
 
 ```json
@@ -89,30 +86,30 @@ Deletes a task by ID.
 
 📌 Example curl Requests
 
-# Get all tasks
+### Get all tasks
 
 curl http://localhost:8080/tasks
 
-# Create a task
+### Create a task
 
-curl -X POST http://localhost:8080/tasks/\
+curl -X POST http://localhost:8080/tasks\
  -H "Content-Type: application/json" \
  -d '{"title":"Learn Go", "completed":false}'
 
-# Update a task
+### Update a task
 
 curl -X PUT http://localhost:8080/tasks/1 \
  -H "Content-Type: application/json" \
  -d '{"title":"Updated Task", "completed":true}'
 
-# Delete a task
+### Delete a task
 
 curl -X DELETE http://localhost:8080/tasks/1
 
-🔮 Future Improvements
+### 🔮 Future Improvements
 
-🔐 Add JWT authentication
+- 🔐 Add JWT authentication
 
-🧪 Write unit and integration tests
+- 🧪 Write unit and integration tests
 
-🗃️ Add persistent database
+- 🗃️ Add persistent database
