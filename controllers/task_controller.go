@@ -7,11 +7,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-var tasks = []models.Task{}
+var taskMap = make(map[int]models.Task)
 var nextID = 1
 
 func GetTasks(c *gin.Context) {
+	tasks := make([]models.Task, 0, len(taskMap))
+	for _, task := range taskMap {
+		tasks = append(tasks, task)
+	}
 	c.JSON(http.StatusOK, tasks)
 }
 
@@ -23,7 +26,7 @@ func CreateTask(c *gin.Context) {
 	}
 	newTask.ID = nextID
 	nextID++
-	tasks = append(tasks, newTask)
+	taskMap[newTask.ID] = newTask
 	c.JSON(http.StatusCreated, newTask)
 }
 
@@ -34,20 +37,24 @@ func UpdateTask(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
 		return
 	}
+
+	existingTask, exists := taskMap[id]
+	if !exists {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+		return
+	}
+
 	var updatedTask models.Task
 	if err := c.ShouldBindJSON(&updatedTask); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	for i, t := range tasks {
-		if t.ID == id {
-			tasks[i].Title = updatedTask.Title
-			tasks[i].Completed = updatedTask.Completed
-			c.JSON(http.StatusOK, tasks[i])
-			return
-		}
-	}
-	c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+
+	existingTask.Title = updatedTask.Title
+	existingTask.Completed = updatedTask.Completed
+	taskMap[id] = existingTask
+
+	c.JSON(http.StatusOK, existingTask)
 }
 
 func DeleteTask(c *gin.Context) {
@@ -57,12 +64,12 @@ func DeleteTask(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
 		return
 	}
-	for i, t := range tasks {
-		if t.ID == id {
-			tasks = append(tasks[:i], tasks[i+1:]...)
-			c.Status(http.StatusNoContent)
-			return
-		}
+
+	if _, exists := taskMap[id]; !exists {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+		return
 	}
-	c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+
+	delete(taskMap, id)
+	c.Status(http.StatusNoContent)
 }
