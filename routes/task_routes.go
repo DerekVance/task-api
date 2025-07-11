@@ -10,5 +10,6 @@ func RegisterTaskRoutes(r *gin.Engine) {
 	{
 		taskGroup.GET("/", controllers.GetTasks)
 		taskGroup.POST("/", controllers.CreateTask)
+		taskGroup.PUT("/:id", controllers.UpdateTask)
 	}
 }
