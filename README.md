@@ -50,7 +50,7 @@ go run cmd/server/main.go
 ```
 
 The server will be running at:
-➡️ http://localhost:8080
+➡️ <http://localhost:8080>
 
 📮 API Endpoints
 
@@ -88,23 +88,23 @@ Deletes a task by ID.
 
 ### Get all tasks
 
-curl http://localhost:8080/tasks
+curl <http://localhost:8080/tasks>
 
 ### Create a task
 
-curl -X POST http://localhost:8080/tasks\
+curl -X POST <http://localhost:8080/tasks\>
  -H "Content-Type: application/json" \
  -d '{"title":"Learn Go", "completed":false}'
 
 ### Update a task
 
-curl -X PUT http://localhost:8080/tasks/1 \
+curl -X PUT <http://localhost:8080/tasks/1> \
  -H "Content-Type: application/json" \
  -d '{"title":"Updated Task", "completed":true}'
 
 ### Delete a task
 
-curl -X DELETE http://localhost:8080/tasks/1
+curl -X DELETE <http://localhost:8080/tasks/1>
 
 ### 🔮 Future Improvements
 
